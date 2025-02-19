@@ -4,7 +4,7 @@
   "description": "Version of the original game",
   "main": "index.js",
   "scripts": {
-    "test": "",
+    "test": "vitest",
     "build": "npx tsc"
   },
   "author": "",

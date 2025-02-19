@@ -4,6 +4,4 @@ function createGrid(size: number) {
   return grid;
 }
 
-console.log(createGrid(4));
-
-export default createGrid;
+export { createGrid };
