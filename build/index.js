@@ -7,10 +7,10 @@ function createGrid(size) {
     return [];
 }
 function printGrid() {
-    var gridMount = document.getElementById("grid");
-    var grid = createGrid(4);
-    grid.forEach(function (item) {
-        var el = document.createElement("span");
+    const gridMount = document.getElementById("grid");
+    const grid = createGrid(4);
+    grid.forEach((item) => {
+        const el = document.createElement("span");
         el.classList.add("block");
         gridMount.append(el);
     });
