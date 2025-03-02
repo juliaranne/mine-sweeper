@@ -1,5 +1,5 @@
 import { expect, test } from "vitest";
-import { createGrid, sum } from "../index";
+import { createGrid } from "../index";
 
 test("expect a grid of given size with one bomb", () => {
   const grid = createGrid(6);
