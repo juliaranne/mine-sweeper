@@ -3,7 +3,7 @@
     "target": "es6",
     "module": "ESNext",
     "sourceMap": true,
-    "outDir": "build",
+    "outDir": "public/build",
     "moduleResolution": "node",
     "esModuleInterop": true
   },
