@@ -1,6 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.createGrid = createGrid;
 function createGrid(size) {
     const grid = [...Array(size).fill(0)];
     grid[1] = 1;
@@ -16,4 +13,5 @@ function printGrid() {
     });
 }
 printGrid();
+export { createGrid };
 //# sourceMappingURL=index.js.map

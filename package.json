@@ -2,7 +2,8 @@
   "name": "mine-sweeper",
   "version": "1.0.0",
   "description": "Version of the original game",
-  "main": "index.js",
+  "main": "build/index.js",
+  "type": "module",
   "scripts": {
     "test": "vitest",
     "build": "npx tsc",
