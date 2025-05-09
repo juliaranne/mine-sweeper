@@ -8,18 +8,23 @@ class Bomb {
 
 class Grid {
   private size: number;
+  private app: HTMLElement | null = document.getElementById("app");
 
   constructor(s: number) {
     this.size = s;
   }
 
-  drawGrid() {
-    const app = document.getElementById("app");
+  setGridWidth(): void {
+    if (this.app) {
+      this.app.style.width = `${42 * Math.sqrt(this.size)}px`;
+    }
+  }
+
+  drawGrid(): void {
     for (let i = 0; i < this.size; i += 1) {
       const block = new Block("plain");
       const btn = block.createBlock();
-      console.log(block, btn);
-      app?.appendChild(btn);
+      this.app?.appendChild(btn);
     }
   }
 }
@@ -44,4 +49,5 @@ class Block {
 }
 
 const game = new Grid(9);
+game.setGridWidth();
 game.drawGrid();
