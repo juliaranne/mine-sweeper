@@ -2,8 +2,8 @@ import "./style.css";
 
 // grid size and bomb count
 // size squared array
-// generate random numbers less than array
-// split array by
+// generate random numbers less than array, change values of array
+// split array by size
 class BombGrid {
   private bombCount: number;
   private width: number;
@@ -14,17 +14,19 @@ class BombGrid {
   }
 
   createArrayGrid() {
-    const bombPositions: number[] = [];
+    // const bombPositions: number[] = [];
     const blockCount = this.width ** 2;
     const getRandomLocation = () => Math.floor(Math.random() * blockCount + 1);
-    for (let i = 0; i < this.bombCount; i += 1) {
-      let pos = getRandomLocation();
-      if (bombPositions.includes(pos)) {
-        pos = getRandomLocation();
+    const arr = new Array(blockCount).fill(0);
+    let count = 0;
+    while (count < this.bombCount) {
+      const pos = getRandomLocation();
+      if (arr[pos] !== 9) {
+        arr[pos] = 9;
+        count += 1;
       }
-      bombPositions.push(pos);
     }
-    const arr = new Array(this.width ** 2).fill(0);
+    return arr;
   }
 }
 
@@ -73,3 +75,6 @@ class Block {
 const game = new Grid(3);
 game.setGridWidth();
 game.drawGrid();
+
+const grid = new BombGrid(3, 2);
+console.log(grid.createArrayGrid());
