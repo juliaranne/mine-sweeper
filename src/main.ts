@@ -4,6 +4,10 @@ import "./style.css";
 // size squared array
 // generate random numbers less than array, change values of array
 // split array by size
+
+// Go through each block
+// Count number of 9s or bombs
+// Change value of array
 class BombGrid {
   private bombCount: number;
   private width: number;
