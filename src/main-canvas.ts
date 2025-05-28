@@ -57,16 +57,17 @@ function setBombLocation(x: number, y: number) {
 setBombLocation(45, 15);
 setBombLocation(45, 75);
 
-const testSquare = blockPos[5].split(","); // 30,30
+// const testSquare = blockPos[5].split(","); // 30,30
+const [x, y] = blockPos[5].split(",");
 const surroundingSquares = [
-  `${parseInt(testSquare[0]) - 30},${parseInt(testSquare[1]) - 30}`,
-  `${testSquare[0]},${parseInt(testSquare[1]) - 30}`,
-  `${parseInt(testSquare[1]) + 30},${parseInt(testSquare[1]) - 30}`,
-  `${parseInt(testSquare[1]) + 30},${testSquare[1]}`,
-  `${parseInt(testSquare[1]) + 30},${parseInt(testSquare[1]) + 30}`,
-  `${testSquare[1]},${parseInt(testSquare[1]) + 30}`,
-  `${parseInt(testSquare[1]) - 30},${parseInt(testSquare[1]) + 30}`,
-  `${parseInt(testSquare[1]) - 30},${testSquare[1]}`,
+  `${parseInt(x) - 30},${parseInt(y) - 30}`,
+  `${x},${parseInt(y) - 30}`,
+  `${parseInt(x) + 30},${parseInt(y) - 30}`,
+  `${parseInt(x) + 30},${y}`,
+  `${parseInt(x) + 30},${parseInt(y) + 30}`,
+  `${x},${parseInt(y) + 30}`,
+  `${parseInt(x) - 30},${parseInt(y) + 30}`,
+  `${parseInt(x) - 30},${y}`,
 ];
 let count = 0;
 surroundingSquares.forEach((block) => {
