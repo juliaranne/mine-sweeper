@@ -2,6 +2,8 @@ const canvasHeight = 120;
 const canvasWidth = 120;
 const tileSize = 30;
 const tileCount = canvasWidth / tileSize;
+const blockPos: string[] = [];
+const bombLocation: string[] = ["30,0", "30,60"];
 
 const canvas = document.getElementById("app") as HTMLCanvasElement;
 const ctx = canvas?.getContext("2d");
@@ -13,6 +15,7 @@ function createRow(y: number) {
       ctx.fillRect(i * tileSize, y, 30, 30);
       ctx.strokeStyle = "black"; // Optional: Set the stroke color
       ctx.strokeRect(i * tileSize, y, 30, 30);
+      blockPos.push(`${i * tileSize},${y}`);
     }
   }
 }
@@ -20,6 +23,8 @@ function createRow(y: number) {
 for (let j = 0; j < canvasHeight; j += tileSize) {
   createRow(j);
 }
+
+console.log(blockPos);
 
 function drawSquare(x: number, y: number) {
   if (ctx) {
@@ -34,10 +39,10 @@ canvas.addEventListener("mousedown", (e: MouseEvent) => {
   const x = e.offsetX;
   const y = e.offsetY;
 
-  console.log(y - (y % 30), x - (x % 30));
+  console.log(x - (x % 30), y - (y % 30));
   drawSquare(x - (x % 30), y - (y % 30));
 
-  console.log(x, y);
+  // console.log(x, y);
 });
 
 function setBombLocation(x: number, y: number) {
@@ -49,7 +54,31 @@ function setBombLocation(x: number, y: number) {
   }
 }
 
-setBombLocation(15, 15);
+setBombLocation(45, 15);
+setBombLocation(45, 75);
+
+const testSquare = blockPos[5].split(","); // 30,30
+const surroundingSquares = [
+  `${parseInt(testSquare[0]) - 30},${parseInt(testSquare[1]) - 30}`,
+  `${testSquare[0]},${parseInt(testSquare[1]) - 30}`,
+  `${parseInt(testSquare[1]) + 30},${parseInt(testSquare[1]) - 30}`,
+  `${parseInt(testSquare[1]) + 30},${testSquare[1]}`,
+  `${parseInt(testSquare[1]) + 30},${parseInt(testSquare[1]) + 30}`,
+  `${testSquare[1]},${parseInt(testSquare[1]) + 30}`,
+  `${parseInt(testSquare[1]) - 30},${parseInt(testSquare[1]) + 30}`,
+  `${parseInt(testSquare[1]) - 30},${testSquare[1]}`,
+];
+let count = 0;
+surroundingSquares.forEach((block) => {
+  console.log(block);
+  if (bombLocation.includes(block)) {
+    count += 1;
+  }
+});
+console.log(count);
+
+console.log(surroundingSquares);
 
 // have sets of bomb coordinates, see if hit matches
 // have array of square coordinates? run through, count bombs
+// select few at random from blockPos and use for bombs
