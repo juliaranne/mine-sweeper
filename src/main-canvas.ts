@@ -1,21 +1,41 @@
-const canvasHeight = 400;
-const canvasWidth = 400;
+const canvasHeight = 100;
+const canvasWidth = 100;
 const tileSize = 20;
 const tileCount = canvasWidth / tileSize;
 
 const canvas = document.getElementById("app") as HTMLCanvasElement;
 const ctx = canvas?.getContext("2d");
 
-for (let i = 1; i < tileCount; i += 1) {
-  ctx?.beginPath();
-  ctx?.moveTo(tileSize * i, 0);
-  ctx?.lineTo(tileSize * i, 400);
-  ctx?.stroke();
+function createRow(y: number) {
+  for (let i = 0; i < tileCount; i += 1) {
+    if (ctx) {
+      ctx.fillStyle = "#ccc";
+      ctx.fillRect(i * tileSize, y, 20, 20);
+      ctx.strokeStyle = "black"; // Optional: Set the stroke color
+      ctx.strokeRect(i * tileSize, y, 20, 20);
+    }
+  }
 }
 
-for (let i = 1; i < tileCount; i += 1) {
-  ctx?.beginPath();
-  ctx?.moveTo(0, tileSize * i);
-  ctx?.lineTo(400, tileSize * i);
-  ctx?.stroke();
+for (let j = 0; j < canvasHeight; j += tileSize) {
+  createRow(j);
 }
+
+function drawSquare(x: number, y: number) {
+  if (ctx) {
+    ctx.fillStyle = "#e0e0e0";
+    ctx.fillRect(x, y, 20, 20);
+    ctx.strokeStyle = "white"; // Optional: Set the stroke color
+    ctx.strokeRect(x, y, 20, 20);
+  }
+}
+
+canvas.addEventListener("mousedown", (e: MouseEvent) => {
+  const x = e.offsetX;
+  const y = e.offsetY;
+
+  console.log(y - (y % 20), x - (x % 20));
+  drawSquare(x - (x % 20), y - (y % 20));
+
+  console.log(x, y);
+});
