@@ -71,14 +71,10 @@ const surroundingSquares = [
 ];
 let count = 0;
 surroundingSquares.forEach((block) => {
-  console.log(block);
   if (bombLocation.includes(block)) {
     count += 1;
   }
 });
-console.log(count);
-
-console.log(surroundingSquares);
 
 // have sets of bomb coordinates, see if hit matches
 // have array of square coordinates? run through, count bombs
