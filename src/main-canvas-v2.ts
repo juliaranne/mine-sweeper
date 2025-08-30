@@ -4,6 +4,10 @@ enum GameState {
   Lose = "LOSE",
 }
 
+interface Tile {
+  [key: number]: number[];
+}
+
 class Reset {
   private reset: HTMLElement | null = document.getElementById("reset");
   private game_state: string = GameState.Play;
@@ -44,6 +48,8 @@ class Grid {
   private size;
   private canvas = document.getElementById("app") as HTMLCanvasElement;
   private ctx = this.canvas?.getContext("2d");
+  private coordinates: Tile = {};
+  private gridCount: number = 1;
 
   constructor(size: number) {
     this.size = size;
@@ -51,33 +57,43 @@ class Grid {
     activeGame.addEvents();
   }
 
-  private drawColumn(x: number) {
+  private drawColumn(y: number) {
     if (this.ctx) {
-      for (let i = 0; i < this.size / 2; i += 1) {
+      for (let i = 0; i < this.size / Math.sqrt(this.size); i += 1) {
         this.ctx.fillStyle = "#e0e0e0";
-        this.ctx.fillRect(x, i * 30, 30, 30);
+        this.ctx.fillRect(i * 30, y, 30, 30);
         this.ctx.strokeStyle = "black";
-        this.ctx.strokeRect(x, i * 30, 30, 30);
+        this.ctx.strokeRect(i * 30, y, 30, 30);
+        this.coordinates[this.gridCount] = [i * 30, y];
+        this.gridCount += 1;
       }
     }
+    console.log(this.coordinates);
   }
 
-  private drawBomb(x: number, y: number) {
+  private drawBomb(pos: number[]) {
     if (this.ctx) {
       this.ctx.beginPath();
-      this.ctx.arc(x + 15, y + 15, 12, 0, 2 * Math.PI, false);
+      this.ctx.arc(pos[0] + 15, pos[1] + 15, 12, 0, 2 * Math.PI, false);
       this.ctx.fillStyle = "black";
       this.ctx.fill();
     }
   }
 
-  showBomb([x, y]: number[]) {
-    this.drawBomb(x, y);
+  showBomb(index: number) {
+    this.drawBomb(this.coordinates[index]);
   }
 
   drawGrid() {
-    this.drawColumn(0);
-    this.drawColumn(30);
+    let sqWidth = 0;
+    for (let i = 0; i < Math.sqrt(this.size); i += 1) {
+      this.drawColumn(sqWidth);
+      sqWidth += 30;
+    }
+  }
+
+  getCoordinates() {
+    return this.coordinates;
   }
 }
 
@@ -93,23 +109,52 @@ class GridMouseEvents {
       const x = e.offsetX;
       const y = e.offsetY;
 
-      console.log(x - (x % 30), y - (y % 30));
+      const tiles = gameBoard.getCoordinates();
+      const index = Object.entries(tiles).find(([key, val]) => {
+        if (val[0] === x - (x % 30) && val[1] === y - (y % 30)) {
+          return key;
+        }
+      });
       const bombs = new Bombs();
-      bombs.checkLocation(x - (x % 30), y - (y % 30));
+      if (index) {
+        bombs.checkLocation(parseInt(index[0], 10));
+      }
     });
   }
 }
 
 class Bombs {
-  private bombs: number[][] = [[30, 0]];
+  private bombs: number[] = [2, 8];
+  private width = 30;
 
-  checkLocation(x: number, y: number) {
-    const hit = this.bombs.find((bomb) => bomb[0] === x && bomb[1] === y);
+  checkLocation(index: number) {
+    const hit = this.bombs.find((bombIndex) => bombIndex === index);
     if (hit) {
       gameBoard.showBomb(hit);
     }
+
+    const nums = [
+      index - 4,
+      index - 2,
+      index - 3,
+      index - 1,
+      index + 1,
+      index + 2,
+      index + 3,
+      index + 4,
+    ];
+
+    const bombCount = nums.filter((num) => this.bombs.includes(num));
+    console.log(bombCount.length);
+
+    // tis.forEach(([x, y]) => {if (x === this.bombs[0][0] && y === this.bombs[0][1]) {
+
+    // }});
   }
 }
 
-const gameBoard = new Grid(4);
+// dont' check for bomb spefically
+// check that first, if not, count surrounding squares for bombs
+
+const gameBoard = new Grid(9);
 gameBoard.drawGrid();
